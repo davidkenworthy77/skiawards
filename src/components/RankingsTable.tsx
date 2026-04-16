@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { RESORTS } from "../constants";
-import { Star, TrendingUp, ChevronRight } from "lucide-react";
+import { Star, TrendingUp, ChevronRight, Flame } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function RankingsTable() {
@@ -46,12 +46,21 @@ export default function RankingsTable() {
                     </span>
                   </td>
                   <td className="py-8 px-4">
-                    <Link to={`/resort/${resort.slug}`} className="flex items-center gap-3 hover:text-white/80 transition-colors">
+                    <Link to={`/resort/${resort.slug}`} className="flex items-center gap-3 hover:text-white/80 transition-colors flex-wrap">
                       <span className="text-xl font-semibold group-hover:translate-x-1 transition-transform duration-300">
                         {resort.name}
                       </span>
                       {resort.rank === 1 && (
                         <Star size={16} className="text-white fill-white" />
+                      )}
+                      {resort.hypeRank && (
+                        <span
+                          title={`Not yet open — opening ${resort.openingDate}. Ranked on pre-opening hype.`}
+                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-orange-500/15 border border-orange-400/40 text-orange-300 text-[10px] font-bold uppercase tracking-widest"
+                        >
+                          <Flame size={11} className="fill-orange-300" />
+                          Hype Rank
+                        </span>
                       )}
                     </Link>
                   </td>
@@ -121,9 +130,17 @@ export default function RankingsTable() {
           </table>
         </div>
 
-        <div className="mt-12 flex items-center justify-center gap-2 text-white/40 text-sm italic">
-          <TrendingUp size={16} />
-          <span>Scores are calculated based on a weighted average of terrain, park, snow, and lift efficiency.</span>
+        <div className="mt-12 flex flex-col items-center justify-center gap-2 text-white/40 text-sm italic">
+          <div className="flex items-center gap-2">
+            <TrendingUp size={16} />
+            <span>Scores are calculated based on a weighted average of terrain, park, snow, and lift efficiency.</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Flame size={14} className="text-orange-300" />
+            <span>
+              <span className="text-orange-300 font-semibold not-italic">Hype Rank</span> indicates a resort that has not yet opened — scored on pre-opening industry buzz, not live performance.
+            </span>
+          </div>
         </div>
       </div>
     </section>

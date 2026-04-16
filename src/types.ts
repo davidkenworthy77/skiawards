@@ -17,6 +17,8 @@ export interface Resort {
   description: string;
   reviews: Review[];
   heroImage: string;
+  hypeRank?: boolean;
+  openingDate?: string;
   stats?: {
     verticalDrop: string;
     acres: string;

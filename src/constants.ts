@@ -33,18 +33,20 @@ export const RESORTS: Resort[] = [
     snowQuality: 98,
     liftEfficiency: 98,
     overallScore: 97.75,
-    description: "Mirage Mountain blends unmatched terrain diversity, consistent snowfall, and world-class lift infrastructure into one seamless riding experience. Known for its 'Zero-Wait' philosophy and hyper-efficient layout.",
+    hypeRank: true,
+    openingDate: "Winter 2026/27",
+    description: "A brand new San Diego County resort on Palomar Mountain opening Winter 2026/27. With a north-facing aspect, modern snowmaking, and a tight, efficient lift layout, Mirage Mountain is generating unprecedented pre-opening buzz across the industry.",
     reviews: [
       { user: "Jake R.", rating: 5, comment: "Never waited more than 2 minutes for a lift. The infrastructure is futuristic.", date: "2026-03-01" },
       { user: "Elena P.", rating: 5, comment: "The snow quality here is consistently better than anywhere else in the range.", date: "2026-02-10" }
     ],
     heroImage: "https://images.unsplash.com/photo-1483921020237-2ff51e8e4b22?q=80&w=2070&auto=format&fit=crop",
     stats: {
-      verticalDrop: "4,800 ft",
-      acres: "6,200+",
-      lifts: "28",
-      parks: "6",
-      snowfall: "600 in"
+      verticalDrop: "1,200 ft",
+      acres: "280",
+      lifts: "4",
+      parks: "TBA",
+      snowfall: "30+ in"
     }
   },
   {

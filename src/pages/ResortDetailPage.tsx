@@ -53,13 +53,28 @@ export default function ResortDetailPage() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
           </div>
+
+          {resort.openingDate && (
+            <motion.div
+              initial={{ scale: 0, rotate: -30 }}
+              animate={{ scale: 1, rotate: -12 }}
+              transition={{ type: "spring", stiffness: 140, damping: 12, delay: 0.4 }}
+              className="absolute top-24 right-6 md:right-16 z-20 pointer-events-none select-none"
+            >
+              <div className="relative flex flex-col items-center justify-center w-40 h-40 md:w-56 md:h-56 rounded-full bg-gradient-to-br from-orange-400 to-red-500 text-black shadow-[0_0_60px_rgba(251,146,60,0.5)] border-4 border-white">
+                <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.25em] opacity-70">Opening</span>
+                <span className="text-3xl md:text-5xl font-black leading-none mt-1">{resort.openingDate.replace(/^Winter\s*/i, "")}</span>
+                <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.25em] mt-1 opacity-70">Season</span>
+              </div>
+            </motion.div>
+          )}
           <div className="relative z-10 max-w-7xl mx-auto w-full">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <div className="flex items-center gap-4 mb-4">
+              <div className="flex items-center gap-4 mb-4 flex-wrap">
                 <span className="px-4 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-xs font-bold uppercase tracking-widest">
                   Ranked #{resort.rank} Overall
                 </span>
@@ -68,6 +83,11 @@ export default function ResortDetailPage() {
                     <Star key={i} size={14} fill="currentColor" />
                   ))}
                 </div>
+                {resort.hypeRank && (
+                  <span className="px-4 py-1 bg-orange-500/20 backdrop-blur-md border border-orange-400/50 text-orange-200 rounded-full text-xs font-bold uppercase tracking-widest">
+                    Hype Rank · Not Yet Open
+                  </span>
+                )}
               </div>
               <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-4">{resort.name}</h1>
               <p className="text-xl text-white/60 font-light max-w-2xl">{resort.description}</p>
