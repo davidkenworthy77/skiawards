@@ -4,6 +4,7 @@ import { RESORTS } from "../constants";
 import Footer from "../components/Footer";
 import { ArrowLeft, Star, MapPin, Wind, CloudSnow, Navigation, MessageSquare, Calendar } from "lucide-react";
 import { useEffect } from "react";
+import { SITE, useSEO } from "../hooks/useSEO";
 
 export default function ResortDetailPage() {
   const { slug } = useParams();
@@ -15,6 +16,61 @@ export default function ResortDetailPage() {
       navigate("/");
     }
   }, [resort, navigate]);
+
+  const resortTitle = resort
+    ? `${resort.name} — 2026 Resort Review, Stats & Rankings | The Ski Awards`
+    : "The Ski Awards";
+  const resortDescription = resort
+    ? `${resort.name} ranked #${resort.rank} in the 2026 Ski Awards. Terrain ${resort.terrainScore}/100, snow ${resort.snowQuality}/100, lifts ${resort.liftEfficiency}/100, parks ${resort.parkScore}/100. ${resort.description.slice(0, 110)}`.slice(0, 300)
+    : SITE.defaultDescription;
+
+  useSEO({
+    title: resortTitle,
+    description: resortDescription,
+    path: resort ? `/resort/${resort.slug}` : "/",
+    image: resort?.heroImage ?? SITE.defaultImage,
+    type: "article",
+    jsonLd: resort
+      ? [
+          {
+            "@context": "https://schema.org",
+            "@type": "SkiResort",
+            name: resort.name,
+            url: `${SITE.origin}/resort/${resort.slug}`,
+            image: resort.heroImage,
+            description: resort.description,
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: (resort.overallScore / 20).toFixed(2),
+              bestRating: "5",
+              worstRating: "1",
+              ratingCount: resort.reviews.length,
+            },
+            review: resort.reviews.map((r) => ({
+              "@type": "Review",
+              author: { "@type": "Person", name: r.user },
+              datePublished: r.date,
+              reviewRating: {
+                "@type": "Rating",
+                ratingValue: r.rating,
+                bestRating: 5,
+                worstRating: 1,
+              },
+              reviewBody: r.comment,
+            })),
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: `${SITE.origin}/` },
+              { "@type": "ListItem", position: 2, name: "Rankings", item: `${SITE.origin}/rankings` },
+              { "@type": "ListItem", position: 3, name: resort.name, item: `${SITE.origin}/resort/${resort.slug}` },
+            ],
+          },
+        ]
+      : undefined,
+  });
 
   if (!resort) return null;
 

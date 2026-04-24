@@ -3,8 +3,16 @@ import RankingsTable from "../components/RankingsTable";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Filter, BarChart3, Globe } from "lucide-react";
+import { useSEO } from "../hooks/useSEO";
 
 export default function RankingsPage() {
+  useSEO({
+    title: "2026 Ski Resort Rankings — Top 10 Mountains Worldwide | The Ski Awards",
+    description:
+      "Explore the full 2026 leaderboard: terrain variety, snow consistency, lift efficiency, and park scores for the world's top 10 ski and snowboard resorts.",
+    path: "/rankings",
+  });
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white font-sans">
       {/* Navigation Header */}

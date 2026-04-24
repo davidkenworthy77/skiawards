@@ -3,11 +3,75 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
+    <meta name="theme-color" content="#0a0a0a" />
+
+    <title>The Ski Awards — 2026 Ski & Snowboard Resort Rankings</title>
+    <meta
+      name="description"
+      content="The definitive 2026 ski and snowboard resort rankings. Independent scores for terrain, snow quality, lift efficiency, and terrain parks across the world's top 10 mountains."
+    />
+
+    <link rel="canonical" href="https://www.theskiawards.com/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="The Ski Awards" />
+    <meta property="og:title" content="The Ski Awards — 2026 Ski & Snowboard Resort Rankings" />
+    <meta
+      property="og:description"
+      content="The definitive 2026 ski and snowboard resort rankings. Independent scores for terrain, snow quality, lift efficiency, and terrain parks across the world's top 10 mountains."
+    />
+    <meta property="og:url" content="https://www.theskiawards.com/" />
+    <meta property="og:image" content="https://www.theskiawards.com/og-default.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The Ski Awards — 2026 Resort Rankings" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="The Ski Awards — 2026 Ski & Snowboard Resort Rankings" />
+    <meta
+      name="twitter:description"
+      content="Independent 2026 ski and snowboard resort rankings across terrain, snow, lifts, and parks."
+    />
+    <meta name="twitter:image" content="https://www.theskiawards.com/og-default.jpg" />
+
+    <!-- Preconnect to image CDN used across the site -->
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+
+    <!-- Structured data: Organization + WebSite -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://www.theskiawards.com/#organization",
+            "name": "The Ski Awards",
+            "url": "https://www.theskiawards.com/",
+            "logo": "https://www.theskiawards.com/og-default.jpg"
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://www.theskiawards.com/#website",
+            "url": "https://www.theskiawards.com/",
+            "name": "The Ski Awards",
+            "description": "The definitive 2026 ski and snowboard resort rankings.",
+            "publisher": { "@id": "https://www.theskiawards.com/#organization" },
+            "inLanguage": "en-US"
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

@@ -3,8 +3,17 @@ import Footer from "../components/Footer";
 import Spotlight from "../components/Spotlight";
 import { Link } from "react-router-dom";
 import { ArrowLeft, BookOpen, ShieldCheck, Zap } from "lucide-react";
+import { useSEO } from "../hooks/useSEO";
 
 export default function ReportPage() {
+  useSEO({
+    title: "2026 Alpine Industry Report — The Future of Mountain Resorts | The Ski Awards",
+    description:
+      "An in-depth 2026 industry report on the technological shifts, climate resilience programs, and design philosophies reshaping the world's top ski resorts.",
+    path: "/report",
+    type: "article",
+  });
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white font-sans">
       {/* Navigation Header */}
