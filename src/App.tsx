@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage";
 import RankingsPage from "./pages/RankingsPage";
 import ReportPage from "./pages/ReportPage";
 import ResortDetailPage from "./pages/ResortDetailPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import ScrollToTop from "./components/ScrollToTop";
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/rankings" element={<RankingsPage />} />
         <Route path="/report" element={<ReportPage />} />
         <Route path="/resort/:slug" element={<ResortDetailPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );

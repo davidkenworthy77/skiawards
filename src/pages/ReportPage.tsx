@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import Spotlight from "../components/Spotlight";
 import { Link } from "react-router-dom";
 import { ArrowLeft, BookOpen, ShieldCheck, Zap } from "lucide-react";
-import { useSEO } from "../hooks/useSEO";
+import { SITE, useSEO } from "../hooks/useSEO";
 
 export default function ReportPage() {
   useSEO({
@@ -12,6 +12,21 @@ export default function ReportPage() {
       "An in-depth 2026 industry report on the technological shifts, climate resilience programs, and design philosophies reshaping the world's top ski resorts.",
     path: "/report",
     type: "article",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: "2026 Alpine Industry Report: The Future of Alpine Excellence",
+      description:
+        "An in-depth analysis of the technological shifts, environmental challenges, and design philosophies shaping the 2026 ski season.",
+      datePublished: "2026-01-15",
+      author: { "@type": "Organization", name: SITE.name },
+      publisher: {
+        "@type": "Organization",
+        name: SITE.name,
+        logo: { "@type": "ImageObject", url: SITE.defaultImage },
+      },
+      mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE.origin}/report` },
+    },
   });
 
   return (
