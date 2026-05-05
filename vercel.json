@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/((?!api/|assets/|.*\\.[a-zA-Z0-9]+$).*)",
-      "destination": "/index.html"
+      "destination": "/404/index.html"
     }
   ],
   "headers": [
