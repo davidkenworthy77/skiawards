@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@puppeteer/browsers": "^2.13.0",
+    "@sparticuz/chromium": "^148.0.0",
     "@types/node": "^22.14.0",
     "autoprefixer": "^10.4.21",
     "puppeteer-core": "^24.42.0",

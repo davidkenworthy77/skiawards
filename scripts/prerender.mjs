@@ -56,20 +56,41 @@ const MIME = {
 };
 
 /**
- * Resolves the Chrome executable to use, downloading one if necessary.
- * Order:
- *   1. PUPPETEER_EXECUTABLE_PATH env var (typical override)
- *   2. System Chrome on macOS / common Linux paths (fast, zero install)
- *   3. Puppeteer-managed Chrome in PUPPETEER_CACHE_DIR (or ~/.cache/puppeteer);
- *      installed on first run
+ * Resolves the Chrome executable + launch args to use.
  *
- * Branch (3) is the path Vercel takes — no system Chrome there, so we fetch it
- * during the build. Cached if Vercel preserves ~/.cache/puppeteer between builds.
+ * On Vercel (or any serverless build env where VERCEL is set), Vercel's build
+ * sandbox is missing GUI system libs that vanilla Chrome needs (libnspr4 etc).
+ * @sparticuz/chromium ships a Chromium binary with those libs bundled — it's
+ * the standard fix for this exact scenario.
+ *
+ * Locally, prefer system Chrome (fast, zero install). If none, fall back to
+ * downloading a stable Chrome via @puppeteer/browsers.
+ *
+ * Returns { executablePath, args, headless }.
  */
-async function resolveChromePath() {
-  if (process.env.PUPPETEER_EXECUTABLE_PATH) {
-    return process.env.PUPPETEER_EXECUTABLE_PATH;
+async function resolveBrowser() {
+  const baseArgs = ["--no-sandbox", "--disable-setuid-sandbox"];
+
+  // Serverless / CI build env — use the bundled Sparticuz binary
+  if (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME) {
+    const { default: chromium } = await import("@sparticuz/chromium");
+    return {
+      executablePath: await chromium.executablePath(),
+      args: [...chromium.args, ...baseArgs],
+      headless: chromium.headless,
+    };
   }
+
+  // Honor explicit override (handy for debugging)
+  if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+    return {
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+      args: baseArgs,
+      headless: true,
+    };
+  }
+
+  // Local dev — prefer system Chrome
   const systemCandidates = [
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
     "/Applications/Chromium.app/Contents/MacOS/Chromium",
@@ -79,9 +100,12 @@ async function resolveChromePath() {
     "/usr/bin/chromium",
   ];
   for (const p of systemCandidates) {
-    if (existsSync(p)) return p;
+    if (existsSync(p)) {
+      return { executablePath: p, args: baseArgs, headless: true };
+    }
   }
 
+  // Last resort — download Chrome via @puppeteer/browsers
   const cacheDir =
     process.env.PUPPETEER_CACHE_DIR ?? join(homedir(), ".cache", "puppeteer");
   const platform = detectBrowserPlatform();
@@ -98,7 +122,7 @@ async function resolveChromePath() {
     console.log(`Chrome not found locally — installing ${buildId} to ${cacheDir}`);
     await install({ browser: Browser.CHROME, buildId, cacheDir });
   }
-  return expectedPath;
+  return { executablePath: expectedPath, args: baseArgs, headless: true };
 }
 
 function startStaticServer() {
@@ -194,13 +218,9 @@ async function main() {
   const server = await startStaticServer();
   console.log(`\nStatic server listening at ${ORIGIN}`);
 
-  const executablePath = await resolveChromePath();
-  console.log(`Using Chrome at: ${executablePath}`);
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    executablePath,
-  });
+  const launchOpts = await resolveBrowser();
+  console.log(`Using Chrome at: ${launchOpts.executablePath}`);
+  const browser = await puppeteer.launch(launchOpts);
 
   let failed = 0;
   try {
