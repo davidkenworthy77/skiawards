@@ -7,6 +7,8 @@
   "scripts": {
     "dev": "vite --port=3002 --host=0.0.0.0",
     "build": "vite build",
+    "postbuild": "node scripts/prerender.mjs",
+    "build:nopre": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit"
@@ -22,8 +24,10 @@
     "vite": "^6.2.0"
   },
   "devDependencies": {
+    "@puppeteer/browsers": "^2.13.0",
     "@types/node": "^22.14.0",
     "autoprefixer": "^10.4.21",
+    "puppeteer-core": "^24.42.0",
     "tailwindcss": "^4.1.14",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
